@@ -8,7 +8,7 @@ function aiChar(){
   else {
     computerChar="X";
   }
-  document.getElementById('test2').innerHTML=computerChar;
+  document.getElementById('test2').innerHTML="Calculatorul joaca " + computerChar;
 
 }
 aiChar();
@@ -62,7 +62,10 @@ function winningCondition(){
                 else if
                   ((t[2]==t[4] && t[2]==t[6]) && (t[4]==playChar)) {
                   alert("Ai castigat");} //diagonal  2-6
-                    else if ((t[0]==t[1] && t[1]==t[2]) && (t[1]==computerChar)) {
+                }
+
+  function losingCondition(){
+                   if ((t[0]==t[1] && t[1]==t[2]) && (t[1]==computerChar)) {
                         alert("Ai pierdut!");} //orizontal 1
                         else if
                           ((t[3]==t[4] && t[4]==t[5]) && (t[3]==computerChar)) {
@@ -85,8 +88,7 @@ function winningCondition(){
                                     else if
                                       ((t[2]==t[4] && t[2]==t[6]) && (t[4]==playChar)) {
                                       alert("Ai pierdut!");} //diagonal  2-6}
-    }
-
+}
     function ai(){
       var gol =[];
       var rand;
@@ -96,11 +98,11 @@ function winningCondition(){
         }
       }
       var rand = gol[Math.floor(Math.random() * gol.length)];
-      document.getElementById('test').innerHTML=playChar;
+    //  document.getElementById('test').innerHTML=playChar;
 
       t[rand]=computerChar;
       arrayToTable();
-      winningCondition();
+      losingCondition();
     }
 
 
