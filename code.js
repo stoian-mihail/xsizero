@@ -12,7 +12,10 @@ function aiChar(){
 
 }
 aiChar();
+
 var x=false;
+var y=false;
+var b = ["","","","","","","","",""];
 var t = ["","","","","","","","",""]; //array-ul care stocheaza continutul patratelelr
 var ids =["position1", "position2", "position3","position4", "position5","position6","position7","position8","position9"]
 
@@ -89,25 +92,25 @@ function winningCondition(){
                                       ((t[2]==t[4] && t[2]==t[6]) && (t[4]==playChar)) {
                                       alert("Ai pierdut!");} //diagonal  2-6}
 }
-    function ai(){
 
-      function emptyRandom(){
-        var gol =[];
-        var rand;
-        for(i=0;i<=8;i++){
-          if (t[i]=="") {
-          gol.push(i);
-          }
-        }
-        var rand = gol[Math.floor(Math.random() * gol.length)];
-        t[rand]=computerChar;
-      }
+function emptyRandom(){
+  var gol =[];
+  var rand;
+  for(i=0;i<=8;i++){
+    if (t[i]=="") {
+    gol.push(i);
+    }
+  }
+  var rand = gol[Math.floor(Math.random() * gol.length)];
+  t[rand]=computerChar;
+}
+
+function ai(){
 
     if(t[4]==""){
-      t[4]=computerChar;
-    }
 
-//inceput functie verificator orizontal
+    t[4]=computerChar;
+    }
 function verifier_hor(m){
 var line1=0;
 var n=m;
@@ -123,6 +126,7 @@ if (line1==2){
   while(n<=m){
     if(t[n]==""){
       t[n]=computerChar;
+        x=true;
     }
     n++;
   }
@@ -144,6 +148,8 @@ if (line2==2){
   while(n<=m){
     if(t[n]==""){
       t[n]=computerChar;
+      y=true;
+
     }
     n+=3;
   }
@@ -152,65 +158,70 @@ if (line2==2){
 verifier_hor(8);
 verifier_hor(5);
 verifier_hor(2);
-verifier_vert(8);
-verifier_vert(7);
-verifier_vert(6);
+if (x==false){
+  verifier_vert(8);
+  verifier_vert(7);
+  verifier_vert(6);}
 arrayToTable();
 losingCondition();
+alert(b);
 }
 
 
 var cell1 = document.getElementById("position1");
 cell1.addEventListener("click", function (){
   cell1.innerHTML=playChar;
-t[0]=playChar;
-winningCondition();
-ai();
-
+  t[0]=playChar;
+  winningCondition();
+  ai();
 });
 var cell2 = document.getElementById("position2");
 cell2.addEventListener("click", function (){
   cell2.innerHTML=playChar;
-t[1]=playChar;
-winningCondition();
-ai();
-});
+  t[1]=playChar;
+  winningCondition();
+  ai();
+  });
 var cell3 = document.getElementById("position3");
 cell3.addEventListener("click", function (){
   cell3.innerHTML=playChar;
-t[2]=playChar;
-winningCondition();
-ai();
-});
+  t[2]=playChar;
+  winningCondition();
+  ai();
+  });
 
 var cell4 = document.getElementById("position4");
 cell4.addEventListener("click", function (){
   cell4.innerHTML=playChar;
-t[3]=playChar;
-winningCondition();
-ai();
-});
+  t[3]=playChar;
+  winningCondition();
+  ai();
+  });
+
 var cell5 = document.getElementById("position5");
 cell5.addEventListener("click", function (){
   cell5.innerHTML=playChar;
-t[4]=playChar;
-winningCondition();
-ai();
-});
+  t[4]=playChar;
+  winningCondition();
+  ai();
+  });
+
 var cell6 = document.getElementById("position6");
 cell6.addEventListener("click", function (){
   cell6.innerHTML=playChar;
-t[5]=playChar;
-winningCondition();
-ai();
-});
+  t[5]=playChar;
+  winningCondition();
+  ai();
+  });
+
 var cell7 = document.getElementById("position7");
 cell7.addEventListener("click", function (){
   cell7.innerHTML=playChar;
-t[6]=playChar;
-winningCondition();
-ai();
+  t[6]=playChar;
+  winningCondition();
+  ai();
 });
+
 var cell8 = document.getElementById("position8");
 cell8.addEventListener("click", function (){
   cell8.innerHTML=playChar;
@@ -218,12 +229,19 @@ t[7]=playChar;
 winningCondition();
 ai();
 });
+
 var cell9 = document.getElementById("position9");
 cell9.addEventListener("click", function (){
   cell9.innerHTML=playChar;
 t[8]=playChar;
 winningCondition();
 ai();
+if(b==t){
+  alert("Este baaa");
+  emptyRandom();
+  arrayToTable();
+  losingCondition();
+}
 });
 
 arrayToTable();
