@@ -8,11 +8,11 @@ function aiChar(){
   else {
     computerChar="X";
   }
-  document.getElementById('test2').innerHTML="Calculatorul joaca " + computerChar;
+  //document.getElementById('test2').innerHTML="Calculatorul joaca " + computerChar;
 
 }
 aiChar();
-
+var x=false;
 var t = ["","","","","","","","",""]; //array-ul care stocheaza continutul patratelelr
 var ids =["position1", "position2", "position3","position4", "position5","position6","position7","position8","position9"]
 
@@ -90,20 +90,74 @@ function winningCondition(){
                                       alert("Ai pierdut!");} //diagonal  2-6}
 }
     function ai(){
-      var gol =[];
-      var rand;
-      for(i=0;i<=8;i++){
-        if (t[i]=="") {
-        gol.push(i);
-        }
-      }
-      var rand = gol[Math.floor(Math.random() * gol.length)];
-    //  document.getElementById('test').innerHTML=playChar;
 
-      t[rand]=computerChar;
-      arrayToTable();
-      losingCondition();
+      function emptyRandom(){
+        var gol =[];
+        var rand;
+        for(i=0;i<=8;i++){
+          if (t[i]=="") {
+          gol.push(i);
+          }
+        }
+        var rand = gol[Math.floor(Math.random() * gol.length)];
+        t[rand]=computerChar;
+      }
+
+    if(t[4]==""){
+      t[4]=computerChar;
     }
+
+//inceput functie verificator orizontal
+function verifier_hor(m){
+var line1=0;
+var n=m;
+while (n>=m-2) {
+  if(t[n]==playChar){
+    line1++;}
+  n--;
+}
+if(n<m-2){
+  n=n+1;
+}
+if (line1==2){
+  while(n<=m){
+    if(t[n]==""){
+      t[n]=computerChar;
+    }
+    n++;
+  }
+}
+}
+//final functie verificator orizontal
+function verifier_vert(m){
+var line2=0;
+var n=m;
+while (n>=m-6) {
+  if(t[n]==playChar){
+    line2++;}
+  n-=3;
+}
+if(n<m-6){
+  n+=3;
+}
+if (line2==2){
+  while(n<=m){
+    if(t[n]==""){
+      t[n]=computerChar;
+    }
+    n+=3;
+  }
+}
+}
+verifier_hor(8);
+verifier_hor(5);
+verifier_hor(2);
+verifier_vert(8);
+verifier_vert(7);
+verifier_vert(6);
+arrayToTable();
+losingCondition();
+}
 
 
 var cell1 = document.getElementById("position1");
