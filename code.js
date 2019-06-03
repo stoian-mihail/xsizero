@@ -12,9 +12,6 @@ function aiChar(){
 
 }
 aiChar();
-
-
-var b = ["","","","","","","","",""];
 var t = ["","","","","","","","",""]; //array-ul care stocheaza continutul patratelelr
 var ids =["position1", "position2", "position3","position4", "position5","position6","position7","position8","position9"]
 
@@ -106,18 +103,54 @@ function emptyRandom(){
 
 function ai(){
   var x=false;
-  var y=false;
   var contor=0;
-  function randomizer(){
-    if (contor==0){
-      emptyRandom();
-    }
-  }
-    if(t[4]==""){
 
+  function randomizer(){
+    var stopper=0;
+    function verifier_hor2(m){
+    var gol1=[];
+    var rand1;
+    var line1=0;
+    var n=m;
+    while (n>=m-2) {
+      if(t[n]==""){
+        line1++;}
+      n--;
+    }
+    if(n<m-2){
+      n=n+1;
+    }
+    if (line1==2){
+      while(n<=m){
+
+      if(t[n]==""){
+          gol1.push(n);
+          }
+          n++;
+        }
+        var rand1 = gol1[Math.floor(Math.random() * gol1.length)];
+        t[rand1]=computerChar;
+        stopper = 1;
+      }
+    }
+
+    if (contor==0){
+      for(i=2;i<=8;i+=3){
+          if (stopper==1){
+            break;}
+            else {
+                verifier_hor2(i);
+            }
+     }
+    }
+  } //end of randomizer function
+
+
+   if(t[4]==""){
     t[4]=computerChar;
     contor=1;
-    }
+  }
+
 function verifier_hor(m){
 var line1=0;
 var n=m;
@@ -127,7 +160,7 @@ while (n>=m-2) {
   n--;
 }
 if(n<m-2){
-  n=n+1;
+  n++;
 }
 if (line1==2){
   while(n<=m){
@@ -141,35 +174,34 @@ if (line1==2){
 }
 }
 //final functie verificator orizontal
+
 function verifier_vert(m){
-var line2=0;
+var line1=0;
 var n=m;
 
 while (n>=m-6) {
   if(t[n]==playChar){
-    line2++;}
+    line1++;}
   n-=3;
 }
 if(n<m-6){
   n+=3;
 }
-if (line2==2){
+if (line1==2){
   while(n<=m){
     if(t[n]==""){
       t[n]=computerChar;
       contor=1;
-      y=true;
-
     }
     n+=3;
   }
 }
 }
-for(i=2;i<=8;i++){
+
+//begining verification
+for(i=2;i<=8;i+=3){
   verifier_hor(i);
-
 }
-
 if (x==false){
     for(i=6;i<=8;i++) {
       verifier_vert(i);
@@ -178,6 +210,7 @@ if (x==false){
   randomizer();
   arrayToTable();
   losingCondition();
+
 }
 
 
@@ -249,12 +282,4 @@ cell9.addEventListener("click", function (){
 t[8]=playChar;
 winningCondition();
 ai();
-if(b==t){
-  alert("Este baaa");
-  emptyRandom();
-  arrayToTable();
-  losingCondition();
-}
 });
-
-arrayToTable();
