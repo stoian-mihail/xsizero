@@ -13,8 +13,7 @@ function aiChar(){
 }
 aiChar();
 
-var x=false;
-var y=false;
+
 var b = ["","","","","","","","",""];
 var t = ["","","","","","","","",""]; //array-ul care stocheaza continutul patratelelr
 var ids =["position1", "position2", "position3","position4", "position5","position6","position7","position8","position9"]
@@ -106,10 +105,18 @@ function emptyRandom(){
 }
 
 function ai(){
-
+  var x=false;
+  var y=false;
+  var contor=0;
+  function randomizer(){
+    if (contor==0){
+      emptyRandom();
+    }
+  }
     if(t[4]==""){
 
     t[4]=computerChar;
+    contor=1;
     }
 function verifier_hor(m){
 var line1=0;
@@ -126,6 +133,7 @@ if (line1==2){
   while(n<=m){
     if(t[n]==""){
       t[n]=computerChar;
+      contor=1;
         x=true;
     }
     n++;
@@ -136,6 +144,7 @@ if (line1==2){
 function verifier_vert(m){
 var line2=0;
 var n=m;
+
 while (n>=m-6) {
   if(t[n]==playChar){
     line2++;}
@@ -148,6 +157,7 @@ if (line2==2){
   while(n<=m){
     if(t[n]==""){
       t[n]=computerChar;
+      contor=1;
       y=true;
 
     }
@@ -155,16 +165,19 @@ if (line2==2){
   }
 }
 }
-verifier_hor(8);
-verifier_hor(5);
-verifier_hor(2);
+for(i=2;i<=8;i++){
+  verifier_hor(i);
+
+}
+
 if (x==false){
-  verifier_vert(8);
-  verifier_vert(7);
-  verifier_vert(6);}
-arrayToTable();
-losingCondition();
-alert(b);
+    for(i=6;i<=8;i++) {
+      verifier_vert(i);
+    }
+  }
+  randomizer();
+  arrayToTable();
+  losingCondition();
 }
 
 
