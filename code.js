@@ -103,24 +103,32 @@ function emptyRandom(){
 
 function ai(){
   var x=false;
-  var contor=0;
+  var y=false;
+  var contor=0; //variable used to check if the computer placed a character in any of the squares
+
+
 
   function randomizer(){
-    var stopper=0;
+    var stopper=0; //variable used to check if the ai placed any character inside the child functions verifier_hor2 and verifier_vert2
     function verifier_hor2(m){
     var gol1=[];
     var rand1;
-    var line1=0;
+    var line1=0; // variable used for checking the number of empty spaces
+    var line2=0; // variable used for checking the number of spaces occupied by computerChar
     var n=m;
     while (n>=m-2) {
       if(t[n]==""){
         line1++;}
+      if(t[n]==computerChar){
+        line2++;
+      }
       n--;
     }
     if(n<m-2){
       n=n+1;
     }
-    if (line1==2){
+
+    if (line1==2 && line2>=1){
       while(n<=m){
 
       if(t[n]==""){
@@ -134,12 +142,52 @@ function ai(){
       }
     }
 
+    function verifier_vert2(m){
+    var gol1=[];
+    var rand1;
+    var line1=0;
+    var line2=0;
+    var n=m;
+    while (n>=m-6) {
+      if(t[n]==""){
+        line1++;}
+        if(t[n]==computerChar){
+          line2++;
+        }
+      n-=3;
+    }
+    if(n<m-6){
+      n+=3;
+    }
+    if (line1==2 && line2>=1){
+      while(n<=m){
+
+      if(t[n]==""){
+          gol1.push(n);
+          }
+          n+=3;
+        }
+        var rand1 = gol1[Math.floor(Math.random() * gol1.length)];
+        t[rand1]=computerChar;
+        stopper = 1;
+        y = true;
+      }
+    }
+
     if (contor==0){
       for(i=2;i<=8;i+=3){
           if (stopper==1){
             break;}
             else {
                 verifier_hor2(i);
+                if (y==false){
+                  if (stopper==1){
+                    break;}
+                  for(i=6;i<=8;i++) {
+                    verifier_vert2(i);
+                  }
+
+                }
             }
      }
     }
@@ -151,6 +199,7 @@ function ai(){
     contor=1;
   }
 
+// starting horizontal verifier
 function verifier_hor(m){
 var line1=0;
 var n=m;
