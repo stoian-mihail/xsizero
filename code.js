@@ -104,19 +104,28 @@ function emptyRandom(){
 function ai(){
   var x=false;
   var y=false;
-  var contor=0; //variable used to check if the computer placed a character in any of the squares
+  var contor=0; //variable used to check if the computer placed a character in any of the squares during the first verification
 
 
+  function spot_win(){
 
-  function randomizer(){
+  }
+
+
+  function randomizer(){ /* functia randomizer popouleaza tabelul cu o valoare in cazul in care in urma verificarilor primare
+     tabelul nu s-a populat cu nimic, nefiind nicio urgenta: calculatorul nu putea castiga imediat si nici jucatorul nu putea castiga imediat*/
     var stopper=0; //variable used to check if the ai placed any character inside the child functions verifier_hor2 and verifier_vert2
+
+/* functia verifier_hor2  verifica daca exista urmatoarele situatie:
+    - are vreo linie un spatiu ocupat de calculator si doua goale? daca da, va popula aleatoriu unul din cele doua spatii goale
+*/
     function verifier_hor2(m){
     var gol1=[];
     var rand1;
     var line1=0; // variable used for checking the number of empty spaces
     var line2=0; // variable used for checking the number of spaces occupied by computerChar
     var n=m;
-    while (n>=m-2) {
+    while (n>=m-2) { //aici incepe parcurgerea liniilor orizontale pentru verificarea situatiei
       if(t[n]==""){
         line1++;}
       if(t[n]==computerChar){
@@ -128,27 +137,32 @@ function ai(){
       n=n+1;
     }
 
-    if (line1==2 && line2>=1){
+   // indeplinirea conditiei de scriere  doua spatii goale si unul detinut de calculator
+
       while(n<=m){
-
-      if(t[n]==""){
+      if(t[n]=="" && line1==2 && line2==1){
           gol1.push(n);
-          }
-          n++;
+          var rand1 = gol1[Math.floor(Math.random() * gol1.length)];
+          t[rand1]=computerChar;
+          stopper = 1;
         }
-        var rand1 = gol1[Math.floor(Math.random() * gol1.length)];
-        t[rand1]=computerChar;
-        stopper = 1;
-      }
-    }
+      n++;}
 
+
+
+
+    }
+/*
+functia verifier_vert2 verifica urmatoarea situatie: exista pe coloane o patratica detinuta de calculator si doua libere?
+daca da, atunci functia va scrie in patratica libera un computerChar is va nota faptul ca a scris
+*/
     function verifier_vert2(m){
     var gol1=[];
     var rand1;
-    var line1=0;
-    var line2=0;
+    var line1=0; //checks number of empty spaces
+    var line2=0; //checks number of computer occupied spaces
     var n=m;
-    while (n>=m-6) {
+    while (n>=m-6) { // parcurgerea coloanelor
       if(t[n]==""){
         line1++;}
         if(t[n]==computerChar){
@@ -156,10 +170,10 @@ function ai(){
         }
       n-=3;
     }
-    if(n<m-6){
-      n+=3;
-    }
-    if (line1==2 && line2>=1){
+        if(n<m-6){
+          n+=3;
+        }
+    if (line1==2 && line2==1){
       while(n<=m){
 
       if(t[n]==""){
@@ -172,46 +186,55 @@ function ai(){
         stopper = 1;
         y = true;
       }
-    }
+    } //end of vertical
 
-    if (contor==0){
+    if (contor==0){ // conditia care verifica daca in urma verificarii primare nu s-a scris nimic; in cazul in care s-a scris, incepe verificarea secundara
       for(i=2;i<=8;i+=3){
-          if (stopper==1){
+          if (stopper==1){ // iful stopper opreste rularea verificarii secundare orizontale in cazul in care aceasta a mai fost executata o data
             break;}
-            else {
-                verifier_hor2(i);
+                verifier_hor2(i);}
+
                 if (y==false){
-                  if (stopper==1){
-                    break;}
+
                   for(i=6;i<=8;i++) {
                     verifier_vert2(i);
                   }
 
                 }
             }
-     }
-    }
-  } //end of randomizer function
-
-
-   if(t[4]==""){
-    t[4]=computerChar;
-    contor=1;
-  }
+     }//end of randomizer function
 
 // starting horizontal verifier
-function verifier_hor(m){
-var line1=0;
+function verifier_hor(m){  //verificarea primara care verifica 2 lucruri: exista doua patratele detinute de calculator sau de om pe orizontala
+var line1=0; // checks for player occupied spaces
+var line2=0; // checks for computer occupied spaces
+var line3=0; //checks for empty spaces
 var n=m;
 while (n>=m-2) {
-  if(t[n]==playChar){
+  if(t[n] == playChar){
     line1++;}
+    if( t[n] == computerChar ){
+      line2++;
+    }
+    if(t[n]==""){
+      line3++;
+    }
   n--;
 }
 if(n<m-2){
   n++;
 }
-if (line1==2){
+if (line3==1 && line2==2) {
+  while(n<=m){
+
+  if(t[n]==""){
+    t[n]=computerChar;
+    contor = 1;
+      }
+      n++;
+    }
+}
+ else if (line1==2){
   while(n<=m){
     if(t[n]==""){
       t[n]=computerChar;
@@ -224,19 +247,39 @@ if (line1==2){
 }
 //final functie verificator orizontal
 
-function verifier_vert(m){
-var line1=0;
+function verifier_vert(m){/* verificarea primara care verifica 2 lucruri: exista doua patratele detinute de calculator sau de om pe orizontala pe verticala*/
+var line1=0; // checks for player occupierd
+var line2=0; // checks for computer occupied
+var line3=0; // checks for empty
 var n=m;
 
 while (n>=m-6) {
   if(t[n]==playChar){
     line1++;}
+    else if(t[n]==computerChar){
+      line2++;
+    }
+      else if(t[n]==""){
+        line3++;
+      }
+
+
   n-=3;
 }
 if(n<m-6){
   n+=3;
 }
-if (line1==2){
+if (line3==1 && line2==2) {
+  while(n<=m){
+
+  if(t[n]==""){
+    t[n]=computerChar;
+    contor = 1;
+      }
+      n+=3;
+    }
+}
+else if (line1==2){
   while(n<=m){
     if(t[n]==""){
       t[n]=computerChar;
@@ -247,16 +290,21 @@ if (line1==2){
 }
 }
 
-//begining verification
+//verificarea initiala de captura a centrului
+if(t[4]==""){
+ t[4]=computerChar;
+ contor=1;
+}
+// aici incepem parcurgerea liniilor orizontale pentru verificarea primara
 for(i=2;i<=8;i+=3){
   verifier_hor(i);
 }
-if (x==false){
+if (x==false){ //x = false inseamna ca in urma parcurgerii hor nu s-a ocupat niciun patratel de calculator
     for(i=6;i<=8;i++) {
-      verifier_vert(i);
+      verifier_vert(i); // parcurgerea coloanelor cu verificare primara
     }
   }
-  randomizer();
+  randomizer(); // dupa parcurgerea verificarilor primare, daca nu s-a scris nimic de catre calculator chemam functia randomizer
   arrayToTable();
   losingCondition();
 
