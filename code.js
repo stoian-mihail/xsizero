@@ -85,7 +85,7 @@ function winningCondition(){
                                     ((t[0]==t[4] && t[4]==t[8]) && (t[4]==computerChar)) {
                                     alert("Ai pierdut!");} //diagonal  0-8
                                     else if
-                                      ((t[2]==t[4] && t[2]==t[6]) && (t[4]==playChar)) {
+                                      ((t[2]==t[4] && t[2]==t[6]) && (t[4]==computerChar)) {
                                       alert("Ai pierdut!");} //diagonal  2-6}
 }
 
@@ -284,22 +284,20 @@ if (line3==1 && line2==2) {
     if(n<m-2){
       n=n+1;
     }
-
    // indeplinirea conditiei de scriere  doua spatii goale si unul detinut de calculator
-
       while(n<=m){
-      if(t[n]=="" && line1==2 && line2==1){
+        if(stopper==1){
+          break;
+        }
+      else if(t[n]=="" && line1==2 && line2==1){
           gol1.push(n);
           var rand1 = gol1[Math.floor(Math.random() * gol1.length)];
           t[rand1]=computerChar;
+          contor = 1;
           stopper = 1;
 
         }
       n++;}
-
-
-
-
     }
 /*
 functia verifier_vert2 verifica urmatoarea situatie: exista pe coloane o patratica detinuta de calculator si doua libere?
@@ -324,13 +322,15 @@ daca da, atunci functia va scrie in patratica libera un computerChar is va nota 
         }
 
       while(n<=m){
-
+        if(stopper==1){
+          break;
+        }
       if(t[n]=="" && line1==2 && line2==1){
           gol1.push(n);
           var rand1 = gol1[Math.floor(Math.random() * gol1.length)];
           t[rand1]=computerChar;
           stopper = 1;
-          y = true;
+          contor = 1;
           }
           n+=3;
         }
@@ -338,20 +338,98 @@ daca da, atunci functia va scrie in patratica libera un computerChar is va nota 
 
     } //end of vertical
 
+    function spot_diag1(m){
+    var line2=0; // checks for computer occupied spaces
+    var line3=0; //checks for empty spaces
+    var n=m;
+    var rand;
+    var gol=[];
+    while (n>=m-8) {
+        if( t[n] == computerChar ){
+          line2++;
+        }
+        if(t[n]==""){
+          line3++;
+        }
+      n-=4;
+    }
+    if(n<m-8){
+      n+=4;
+    }
+    if (line2==1 && line3==2) {
+      while(n<=m){
+        if(stopper==1){
+          break;
+        }
+        if(t[n]==""){
+        gol.push(n);
+        var rand = gol[Math.floor(Math.random() * gol.length)];
+        t[rand]=computerChar;
+        stopper = 1;
+        contor = 1;
+          }
+          n+=4;
+        }
+    }}
+
+
+    function spot_diag2(m){
+    var line2 = 0; // checks for computer occupied spaces
+    var line3  =0; //checks for empty spaces
+    var n=m;
+    var gol=[];
+    var rand;
+    while (n>=m-4) {
+        if( t[n] == computerChar ){
+          line2++;
+        }
+        if(t[n]==""){
+          line3++;
+        }
+      n-=2;
+    }
+    if(n<m-4){
+      n+=2;
+    }
+    if (line3==2 && line2==1) {
+      while(n<=m){
+        if(stopper==1){
+          break;
+        }
+      if(t[n]==""){
+        gol.push(n);
+        var rand = gol[Math.floor(Math.random() * gol.length)];
+        t[rand]=computerChar;
+        stopper = 1;
+        contor = 1;
+          }
+          n+=2;
+        }
+    }
+    }
+
     if (contor==0){ // conditia care verifica daca in urma verificarii primare nu s-a scris nimic; in cazul in care s-a scris, incepe verificarea secundara
       for(i=2;i<=8;i+=3){
           if (stopper==1){ // iful stopper opreste rularea verificarii secundare orizontale in cazul in care aceasta a mai fost executata o data
             break;}
                 verifier_hor2(i);}
 
-                if (y==false){
+                if (contor==0){
 
                   for(i=6;i<=8;i++) {
-                    if(y==true){
+                    if(contor==1){
                       break;
                     }
                     verifier_vert2(i);
                   }
+                }
+                if (contor==0){
+                    spot_diag1(8);
+
+                if (contor==0);
+                  spot_diag2(6);
+
+
                 }
             }
      }//end of randomizer function
@@ -399,8 +477,6 @@ function spot_lose(){
         else if(t[n]==""){
           line2++;
         }
-
-
     n-=3;
   }
   if(n<m-6){
