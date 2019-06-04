@@ -110,7 +110,7 @@ function ai(){
   }
 
 function spot_win(){
-    var stopper=0;
+  var stopper=0;
   function spot_vert(m){/* verificarea primara care verifica 2 lucruri: exista doua patratele detinute de calculator sau de om pe orizontala pe verticala*/
   var line2=0; // checks for computer occupied
   var line3=0; // checks for empty
@@ -133,6 +133,7 @@ function spot_win(){
     if(t[n]==""){
       t[n]=computerChar;
       stopper = 1;
+      contor = 1;
         }
         n+=3;
       }
@@ -162,6 +163,7 @@ while(n<=m){
 if(t[n]==""){
   t[n]=computerChar;
   stopper = 1;
+  contor = 1;
     x=true;
     }
     n++;
@@ -190,6 +192,7 @@ if (line3==1 && line2==2) {
   if(t[n]==""){
     t[n]=computerChar;
     stopper = 1;
+    contor = 1;
       x=true;
       }
       n+=4;
@@ -218,6 +221,7 @@ if (line3==1 && line2==2) {
   if(t[n]==""){
     t[n]=computerChar;
     stopper = 1;
+    contor = 1;
       x=true;
       }
       n+=2;
@@ -356,35 +360,21 @@ function spot_lose(){
 
   function verifier_hor(m){  //verificarea primara care verifica 2 lucruri: exista doua patratele detinute de calculator sau de om pe orizontala
   var line1=0; // checks for player occupied spaces
-  var line2=0; // checks for computer occupied spaces
-  var line3=0; //checks for empty spaces
+  var line2=0; //checks for empty spaces
   var n=m;
   while (n>=m-2) {
     if(t[n] == playChar){
       line1++;}
-      if( t[n] == computerChar ){
-        line2++;
-      }
+
       if(t[n]==""){
-        line3++;
+        line2++;
       }
     n--;
   }
   if(n<m-2){
     n++;
   }
-  if (line3==1 && line2==2) {
-    while(n<=m){
-
-    if(t[n]==""){
-      t[n]=computerChar;
-      contor = 1;
-        x=true;
-        }
-        n++;
-      }
-  }
-   else if (line1==2){
+  if (line1==2 && line2==1){
     while(n<=m){
       if(t[n]==""){
         t[n]=computerChar;
@@ -399,18 +389,15 @@ function spot_lose(){
 
   function verifier_vert(m){/* verificarea primara care verifica 2 lucruri: exista doua patratele detinute de calculator sau de om pe orizontala pe verticala*/
   var line1=0; // checks for player occupierd
-  var line2=0; // checks for computer occupied
-  var line3=0; // checks for empty
+  var line2=0; // checks for empty
   var n=m;
 
   while (n>=m-6) {
     if(t[n]==playChar){
       line1++;}
-      else if(t[n]==computerChar){
-        line2++;
-      }
+
         else if(t[n]==""){
-          line3++;
+          line2++;
         }
 
 
@@ -419,17 +406,8 @@ function spot_lose(){
   if(n<m-6){
     n+=3;
   }
-  if (line3==1 && line2==2) {
-    while(n<=m){
 
-    if(t[n]==""){
-      t[n]=computerChar;
-      contor = 1;
-        }
-        n+=3;
-      }
-  }
-  else if (line1==2){
+if (line1==2 && line2==1){
     while(n<=m){
       if(t[n]==""){
         t[n]=computerChar;
@@ -440,10 +418,15 @@ function spot_lose(){
   }
   }
 
+if (contor==0){
+
   for(i=2;i<=8;i+=3){
+    if(contor==1){
+      break;
+    }
     verifier_hor(i);
   }
-  if (x==false){
+  if (contor==0){
     //x = false inseamna ca in urma parcurgerii hor nu s-a ocupat niciun patratel de calculator
       for(i=6;i<=8;i++) {
         if(contor==1){
@@ -451,20 +434,20 @@ function spot_lose(){
         }
         verifier_vert(i); // parcurgerea coloanelor cu verificare primara
       }
-    }
+    }}
 
 }
-// starting horizontal verifier
 //final functie verifier vert
 
 //verificarea initiala de captura a centrului
 function first_move(){
 var not_empty=0;
-
-  for (i=0;i<=8;i++){
+for (i=0;i<=8;i++){
     if(t[i]!=""){
       not_empty++;
     }
+    if (not_empty>1)
+    {break;}
   }
   if(not_empty==1){
     if(t[4]==""){
@@ -472,16 +455,12 @@ var not_empty=0;
      contor=1;
     }
     else if(t[4]==playChar) {emptyRandom();}
-
   }
-
-
 }
-first_move();
-spot_win();
-spot_lose();
 
-
+  first_move();
+  spot_win();
+  spot_lose();
   randomizer(); // dupa parcurgerea verificarilor primare, daca nu s-a scris nimic de catre calculator chemam functia randomizer
   arrayToTable();
   losingCondition();
