@@ -89,23 +89,25 @@ function winningCondition(){
                                       alert("Ai pierdut!");} //diagonal  2-6}
 }
 
-function emptyRandom(){
-  var gol =[];
-  var rand;
-  for(i=0;i<=8;i++){
-    if (t[i]=="") {
-    gol.push(i);
-    }
-  }
-  var rand = gol[Math.floor(Math.random() * gol.length)];
-  t[rand]=computerChar;
-}
+
 
 function ai(){
   var x=false;
   var y=false;
   var contor=0; //variable used to check if the computer placed a character in any of the squares during the first verification
 
+  function emptyRandom(){
+    var gol =[];
+    var rand;
+    for(i=0;i<=8;i++){
+      if (t[i]=="") {
+      gol.push(i);
+      }
+    }
+    var rand = gol[Math.floor(Math.random() * gol.length)];
+    t[rand]=computerChar;
+    contor=1;
+  }
 
 function spot_win(){
     var stopper=0;
@@ -352,115 +354,134 @@ daca da, atunci functia va scrie in patratica libera un computerChar is va nota 
 
 function spot_lose(){
 
-  
-}
-// starting horizontal verifier
-function verifier_hor(m){  //verificarea primara care verifica 2 lucruri: exista doua patratele detinute de calculator sau de om pe orizontala
-var line1=0; // checks for player occupied spaces
-var line2=0; // checks for computer occupied spaces
-var line3=0; //checks for empty spaces
-var n=m;
-while (n>=m-2) {
-  if(t[n] == playChar){
-    line1++;}
-    if( t[n] == computerChar ){
-      line2++;
-    }
-    if(t[n]==""){
-      line3++;
-    }
-  n--;
-}
-if(n<m-2){
-  n++;
-}
-if (line3==1 && line2==2) {
-  while(n<=m){
+  function verifier_hor(m){  //verificarea primara care verifica 2 lucruri: exista doua patratele detinute de calculator sau de om pe orizontala
+  var line1=0; // checks for player occupied spaces
+  var line2=0; // checks for computer occupied spaces
+  var line3=0; //checks for empty spaces
+  var n=m;
+  while (n>=m-2) {
+    if(t[n] == playChar){
+      line1++;}
+      if( t[n] == computerChar ){
+        line2++;
+      }
+      if(t[n]==""){
+        line3++;
+      }
+    n--;
+  }
+  if(n<m-2){
+    n++;
+  }
+  if (line3==1 && line2==2) {
+    while(n<=m){
 
-  if(t[n]==""){
-    t[n]=computerChar;
-    contor = 1;
-      x=true;
+    if(t[n]==""){
+      t[n]=computerChar;
+      contor = 1;
+        x=true;
+        }
+        n++;
+      }
+  }
+   else if (line1==2){
+    while(n<=m){
+      if(t[n]==""){
+        t[n]=computerChar;
+        contor=1;
+          x=true;
       }
       n++;
     }
-}
- else if (line1==2){
-  while(n<=m){
+  }
+  }
+  //final functie verificator orizontal
+
+  function verifier_vert(m){/* verificarea primara care verifica 2 lucruri: exista doua patratele detinute de calculator sau de om pe orizontala pe verticala*/
+  var line1=0; // checks for player occupierd
+  var line2=0; // checks for computer occupied
+  var line3=0; // checks for empty
+  var n=m;
+
+  while (n>=m-6) {
+    if(t[n]==playChar){
+      line1++;}
+      else if(t[n]==computerChar){
+        line2++;
+      }
+        else if(t[n]==""){
+          line3++;
+        }
+
+
+    n-=3;
+  }
+  if(n<m-6){
+    n+=3;
+  }
+  if (line3==1 && line2==2) {
+    while(n<=m){
+
     if(t[n]==""){
       t[n]=computerChar;
-      contor=1;
-        x=true;
-    }
-    n++;
-  }
-}
-}
-//final functie verificator orizontal
-
-function verifier_vert(m){/* verificarea primara care verifica 2 lucruri: exista doua patratele detinute de calculator sau de om pe orizontala pe verticala*/
-var line1=0; // checks for player occupierd
-var line2=0; // checks for computer occupied
-var line3=0; // checks for empty
-var n=m;
-
-while (n>=m-6) {
-  if(t[n]==playChar){
-    line1++;}
-    else if(t[n]==computerChar){
-      line2++;
-    }
-      else if(t[n]==""){
-        line3++;
+      contor = 1;
+        }
+        n+=3;
       }
-
-
-  n-=3;
-}
-if(n<m-6){
-  n+=3;
-}
-if (line3==1 && line2==2) {
-  while(n<=m){
-
-  if(t[n]==""){
-    t[n]=computerChar;
-    contor = 1;
+  }
+  else if (line1==2){
+    while(n<=m){
+      if(t[n]==""){
+        t[n]=computerChar;
+        contor=1;
       }
       n+=3;
     }
-}
-else if (line1==2){
-  while(n<=m){
-    if(t[n]==""){
-      t[n]=computerChar;
-      contor=1;
-    }
-    n+=3;
   }
+  }
+
+  for(i=2;i<=8;i+=3){
+    verifier_hor(i);
+  }
+  if (x==false){
+    //x = false inseamna ca in urma parcurgerii hor nu s-a ocupat niciun patratel de calculator
+      for(i=6;i<=8;i++) {
+        if(contor==1){
+          break;
+        }
+        verifier_vert(i); // parcurgerea coloanelor cu verificare primara
+      }
+    }
+
 }
-}
+// starting horizontal verifier
 //final functie verifier vert
 
 //verificarea initiala de captura a centrului
-if(t[4]==""){
- t[4]=computerChar;
- contor=1;
-}
-spot_win();
-// aici incepem parcurgerea liniilor orizontale pentru verificarea primara
-for(i=2;i<=8;i+=3){
-  verifier_hor(i);
-}
-if (x==false){
-  //x = false inseamna ca in urma parcurgerii hor nu s-a ocupat niciun patratel de calculator
-    for(i=6;i<=8;i++) {
-      if(contor==1){
-        break;
-      }
-      verifier_vert(i); // parcurgerea coloanelor cu verificare primara
+function first_move(){
+var not_empty=0;
+
+  for (i=0;i<=8;i++){
+    if(t[i]!=""){
+      not_empty++;
     }
   }
+  if(not_empty==1){
+    if(t[4]==""){
+     t[4]=computerChar;
+     contor=1;
+    }
+    else if(t[4]==playChar) {emptyRandom();}
+
+  }
+
+
+}
+first_move();
+spot_win();
+spot_lose();
+
+
   randomizer(); // dupa parcurgerea verificarilor primare, daca nu s-a scris nimic de catre calculator chemam functia randomizer
   arrayToTable();
   losingCondition();
