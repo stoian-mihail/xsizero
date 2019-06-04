@@ -1,5 +1,6 @@
 var playChar = window.prompt ("Vrei sa joci cu X sau O?");
 var playChar = playChar.toUpperCase();
+var not_empty=0;
 var computerChar= "";
 function aiChar(){
   if (playChar=="X"){
@@ -242,18 +243,14 @@ if (line3==1 && line2==2) {
                 }
                 spot_vert(i);
               }
-  for (i=0;i<=8;i+=4){
-    if(stopper==1){
-      break;
-    }
-    spot_diag1(i);
+
+    if(stopper==0){
+    spot_diag1(8);
   }
 
-  for (i=2;i<=6;i+=2){
-  if(stopper==1){
-    break;
-  }
-  spot_diag2(i);
+  if(stopper==0){
+
+  spot_diag2(6);
 }
 
 
@@ -334,7 +331,6 @@ daca da, atunci functia va scrie in patratica libera un computerChar is va nota 
           }
           n+=3;
         }
-
 
     } //end of vertical
 
@@ -426,8 +422,10 @@ daca da, atunci functia va scrie in patratica libera un computerChar is va nota 
                 if (contor==0){
                     spot_diag1(8);
 
-                if (contor==0);
+                if (contor==0){
                   spot_diag2(6);
+                }
+
 
 
                 }
@@ -493,6 +491,70 @@ if (line1==2 && line2==1){
     }
   }
   }
+  function spot_diag1(m){
+  var line1=0; // checks for player
+  var line2=0; //checks for empty spaces
+  var n=m;
+  var rand;
+  var gol=[];
+  while (n>=m-8) {
+      if( t[n] == playChar ){
+        line1++;
+      }
+      if(t[n]==""){
+        line2++;
+      }
+    n-=4;
+  }
+  if(n<m-8){
+    n+=4;
+  }
+  if (line1==2 && line2==1) {
+    while(n<=m){
+      if(t[n]==""){
+      gol.push(n);
+      var rand = gol[Math.floor(Math.random() * gol.length)];
+      t[rand]=computerChar;
+      contor = 1;
+        }
+        n+=4;
+      }
+  }}
+
+
+  function spot_diag2(m){
+  var line1 = 0; // checks for player
+  var line2 = 0; //checks for empty spaces
+  var n=m;
+  var gol=[];
+  var rand;
+  while (n>=m-4) {
+      if( t[n] == playChar ){
+        line1++;
+      }
+      if(t[n]==""){
+        line2++;
+      }
+    n-=2;
+  }
+  if(n<m-4){
+    n+=2;
+  }
+  if (line1==2 && line2==1) {
+    while(n<=m){
+
+    if(t[n]==""){
+      gol.push(n);
+      var rand = gol[Math.floor(Math.random() * gol.length)];
+      t[rand]=computerChar;
+      contor = 1;
+        }
+        n+=2;
+      }
+  }
+  }
+
+
 
 if (contor==0){
 
@@ -510,14 +572,19 @@ if (contor==0){
         }
         verifier_vert(i); // parcurgerea coloanelor cu verificare primara
       }
-    }}
+    }
+      if (contor==0){
+          spot_diag1(8);}
 
+      if (contor==0){
+        spot_diag2(6);
+      }
+}
 }
 //final functie verifier vert
 
 //verificarea initiala de captura a centrului
 function first_move(){
-var not_empty=0;
 for (i=0;i<=8;i++){
     if(t[i]!=""){
       not_empty++;
@@ -534,7 +601,8 @@ for (i=0;i<=8;i++){
   }
 }
 
-  first_move();
+  if(not_empty<1){first_move();}
+
   spot_win();
   spot_lose();
   randomizer(); // dupa parcurgerea verificarilor primare, daca nu s-a scris nimic de catre calculator chemam functia randomizer
