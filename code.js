@@ -579,6 +579,10 @@ if (contor==0){
       if (contor==0){
         spot_diag2(6);
       }
+
+      if(contor==0){
+        emptyRandom();
+      }
 }
 }
 //final functie verifier vert
