@@ -9,12 +9,10 @@ function aiChar(){
   else {
     computerChar="X";
   }
-  //document.getElementById('test2').innerHTML="Calculatorul joaca " + computerChar;
-
 }
+
 aiChar();
-var t = ["","","","","","","","",""]; //array-ul care stocheaza continutul patratelelr
-var ids =["position1", "position2", "position3","position4", "position5","position6","position7","position8","position9"]
+var t = ["","","","","","","","",""];
 
 function arrayToTable(){
   var td1 = document.getElementById('position1');
@@ -38,7 +36,6 @@ function arrayToTable(){
 }
 
 function winningCondition(){
-
   if ((t[0]==t[1] && t[1]==t[2]) && (t[1]==playChar)) {
     alert("Ai castigat");} //orizontal 1
     else if
@@ -87,10 +84,8 @@ function winningCondition(){
                                     alert("Ai pierdut!");} //diagonal  0-8
                                     else if
                                       ((t[2]==t[4] && t[2]==t[6]) && (t[4]==computerChar)) {
-                                      alert("Ai pierdut!");} //diagonal  2-6}
-}
-
-
+                                      alert("Ai pierdut!");} //diagonal  2-6
+                                    }
 
 function ai(){
   var x=false;
@@ -110,151 +105,148 @@ function ai(){
     contor=1;
   }
 
-function spot_win(){
-  var stopper=0;
-  function spot_vert(m){/* verificarea primara care verifica 2 lucruri: exista doua patratele detinute de calculator sau de om pe orizontala pe verticala*/
-  var line2=0; // checks for computer occupied
-  var line3=0; // checks for empty
-  var n=m;
-  while (n>=m-6) {
-     if(t[n]==computerChar){
+    function spot_win(){
+      var stopper=0;
+      function spot_vert(m){/* verificarea primara care verifica 2 lucruri: exista doua patratele detinute de calculator sau de om pe orizontala pe verticala*/
+      var line2=0; // checks for computer occupied
+      var line3=0; // checks for empty
+      var n=m;
+      while (n>=m-6) {
+         if(t[n]==computerChar){
+            line2++;
+          }
+            else if(t[n]==""){
+              line3++;
+            }
+        n-=3;
+      }
+      if(n<m-6){
+        n+=3;
+      }
+      if (line3==1 && line2==2) {
+        while(n<=m){
+
+        if(t[n]==""){
+          t[n]=computerChar;
+          stopper = 1;
+          contor = 1;
+            }
+            n+=3;
+          }
+      }
+      }
+    //final spot vert
+
+    function spot_hor(m){
+    var line2=0; // checks for computer occupied spaces
+    var line3=0; //checks for empty spaces
+    var n=m;
+    while (n>=m-2) {
+      if( t[n] == computerChar ){
         line2++;
       }
-        else if(t[n]==""){
-          line3++;
-        }
-    n-=3;
-  }
-  if(n<m-6){
-    n+=3;
-  }
-  if (line3==1 && line2==2) {
+      if(t[n]==""){
+        line3++;
+      }
+    n--;
+    }
+    if(n<m-2){
+    n++;
+    }
+    if (line3==1 && line2==2) {
     while(n<=m){
 
     if(t[n]==""){
       t[n]=computerChar;
       stopper = 1;
       contor = 1;
+        x=true;
         }
-        n+=3;
+        n++;
       }
-  }
-  }
-//final spot vert
-
-function spot_hor(m){  //verificarea primara care verifica 2 lucruri: exista doua patratele detinute de calculator sau de om pe orizontala
-var line2=0; // checks for computer occupied spaces
-var line3=0; //checks for empty spaces
-var n=m;
-while (n>=m-2) {
-  if( t[n] == computerChar ){
-    line2++;
-  }
-  if(t[n]==""){
-    line3++;
-  }
-n--;
-}
-if(n<m-2){
-n++;
-}
-if (line3==1 && line2==2) {
-while(n<=m){
-
-if(t[n]==""){
-  t[n]=computerChar;
-  stopper = 1;
-  contor = 1;
-    x=true;
     }
-    n++;
-  }
-}
-}
+    }
 
-function spot_diag1(m){
-var line2=0; // checks for computer occupied spaces
-var line3=0; //checks for empty spaces
-var n=m;
-while (n>=m-8) {
-    if( t[n] == computerChar ){
-      line2++;
+    function spot_diag1(m){
+    var line2=0; // checks for computer occupied spaces
+    var line3=0; //checks for empty spaces
+    var n=m;
+    while (n>=m-8) {
+        if( t[n] == computerChar ){
+          line2++;
+        }
+        if(t[n]==""){
+          line3++;
+        }
+      n-=4;
     }
-    if(t[n]==""){
-      line3++;
-    }
-  n-=4;
-}
-if(n<m-8){
-  n+=4;
-}
-if (line3==1 && line2==2) {
-  while(n<=m){
-  if(t[n]==""){
-    t[n]=computerChar;
-    stopper = 1;
-    contor = 1;
-      x=true;
-      }
+    if(n<m-8){
       n+=4;
     }
-}
-}
+    if (line3==1 && line2==2) {
+      while(n<=m){
+      if(t[n]==""){
+        t[n]=computerChar;
+        stopper = 1;
+        contor = 1;
+          x=true;
+          }
+          n+=4;
+        }
+    }
+    }
 
-function spot_diag2(m){
-var line2=0; // checks for computer occupied spaces
-var line3=0; //checks for empty spaces
-var n=m;
-while (n>=m-4) {
-    if( t[n] == computerChar ){
-      line2++;
+    function spot_diag2(m){
+    var line2=0; // checks for computer occupied spaces
+    var line3=0; //checks for empty spaces
+    var n=m;
+    while (n>=m-4) {
+        if( t[n] == computerChar ){
+          line2++;
+        }
+        if(t[n]==""){
+          line3++;
+        }
+      n-=2;
     }
-    if(t[n]==""){
-      line3++;
-    }
-  n-=2;
-}
-if(n<m-4){
-  n+=2;
-}
-if (line3==1 && line2==2) {
-  while(n<=m){
-  if(t[n]==""){
-    t[n]=computerChar;
-    stopper = 1;
-    contor = 1;
-      x=true;
-      }
+    if(n<m-4){
       n+=2;
     }
-}
-} // final spot_diag
+    if (line3==1 && line2==2) {
+      while(n<=m){
+      if(t[n]==""){
+        t[n]=computerChar;
+        stopper = 1;
+        contor = 1;
+          x=true;
+          }
+          n+=2;
+        }
+    }
+    }
 
-
-  for(i=2;i<=8;i+=3){
-      if (stopper==1){ // iful stopper opreste rularea verificarii secundare orizontale in cazul in care aceasta a mai fost executata
-        break;
+      for(i=2;i<=8;i+=3){
+          if (stopper==1){
+            break;
+          }
+                spot_hor(i);}
+      for(i=6;i<=8;i++) {
+                    if(stopper==1){
+                      break;
+                    }
+                    spot_vert(i);
+                  }
+        if(stopper==0){
+        spot_diag1(8);
       }
-            spot_hor(i);}
 
-  for(i=6;i<=8;i++) {
-                if(stopper==1){
-                  break;
-                }
-                spot_vert(i);
-              }
+        if(stopper==0){
 
-    if(stopper==0){
-    spot_diag1(8);
-  }
-
-  if(stopper==0){
-
-  spot_diag2(6);
-}
+        spot_diag2(6);
+      }
 
 
-}
+    }
 
 
   function randomizer(){ /* functia randomizer popouleaza tabelul cu o valoare in cazul in care in urma verificarilor primare
@@ -425,15 +417,11 @@ daca da, atunci functia va scrie in patratica libera un computerChar is va nota 
                 if (contor==0){
                   spot_diag2(6);
                 }
-
-
-
                 }
             }
      }//end of randomizer function
 
 function spot_lose(){
-
   function verifier_hor(m){  //verificarea primara care verifica 2 lucruri: exista doua patratele detinute de calculator sau de om pe orizontala
   var line1=0; // checks for player occupied spaces
   var line2=0; //checks for empty spaces
@@ -467,11 +455,9 @@ function spot_lose(){
   var line1=0; // checks for player occupierd
   var line2=0; // checks for empty
   var n=m;
-
   while (n>=m-6) {
     if(t[n]==playChar){
       line1++;}
-
         else if(t[n]==""){
           line2++;
         }
@@ -480,7 +466,6 @@ function spot_lose(){
   if(n<m-6){
     n+=3;
   }
-
 if (line1==2 && line2==1){
     while(n<=m){
       if(t[n]==""){
@@ -521,7 +506,6 @@ if (line1==2 && line2==1){
       }
   }}
 
-
   function spot_diag2(m){
   var line1 = 0; // checks for player
   var line2 = 0; //checks for empty spaces
@@ -554,10 +538,7 @@ if (line1==2 && line2==1){
   }
   }
 
-
-
 if (contor==0){
-
   for(i=2;i<=8;i+=3){
     if(contor==1){
       break;
@@ -575,19 +556,15 @@ if (contor==0){
     }
       if (contor==0){
           spot_diag1(8);}
-
       if (contor==0){
         spot_diag2(6);
       }
-
       if(contor==0){
         emptyRandom();
       }
 }
 }
-//final functie verifier vert
 
-//verificarea initiala de captura a centrului
 function first_move(){
 for (i=0;i<=8;i++){
     if(t[i]!=""){
@@ -604,84 +581,81 @@ for (i=0;i<=8;i++){
     else if(t[4]==playChar) {emptyRandom();}
   }
 }
-
   if(not_empty<1){first_move();}
-
   spot_win();
   spot_lose();
-  randomizer(); // dupa parcurgerea verificarilor primare, daca nu s-a scris nimic de catre calculator chemam functia randomizer
+  randomizer();
   arrayToTable();
   losingCondition();
-
 }
 
 
 var cell1 = document.getElementById("position1");
-cell1.addEventListener("click", function (){
+cell1.addEventListener("click", function (){ if(t[0]==""){
   cell1.innerHTML=playChar;
   t[0]=playChar;
   winningCondition();
   ai();
-});
+}});
 var cell2 = document.getElementById("position2");
-cell2.addEventListener("click", function (){
+cell2.addEventListener("click", function (){ if(t[1]==""){
   cell2.innerHTML=playChar;
   t[1]=playChar;
   winningCondition();
   ai();
-  });
+}});
 var cell3 = document.getElementById("position3");
-cell3.addEventListener("click", function (){
+cell3.addEventListener("click", function (){ if(t[2]==""){
   cell3.innerHTML=playChar;
   t[2]=playChar;
   winningCondition();
   ai();
-  });
+}});
 
 var cell4 = document.getElementById("position4");
-cell4.addEventListener("click", function (){
+cell4.addEventListener("click", function (){ if(t[3]==""){
   cell4.innerHTML=playChar;
   t[3]=playChar;
   winningCondition();
   ai();
-  });
+}});
 
 var cell5 = document.getElementById("position5");
-cell5.addEventListener("click", function (){
+cell5.addEventListener("click", function (){ if(t[4]==""){
   cell5.innerHTML=playChar;
   t[4]=playChar;
   winningCondition();
   ai();
-  });
+}});
 
 var cell6 = document.getElementById("position6");
-cell6.addEventListener("click", function (){
+cell6.addEventListener("click", function (){ if(t[5]==""){
   cell6.innerHTML=playChar;
   t[5]=playChar;
   winningCondition();
   ai();
-  });
+}});
 
 var cell7 = document.getElementById("position7");
-cell7.addEventListener("click", function (){
+cell7.addEventListener("click", function (){ if(t[6]==""){
   cell7.innerHTML=playChar;
   t[6]=playChar;
   winningCondition();
   ai();
-});
+}});
 
 var cell8 = document.getElementById("position8");
-cell8.addEventListener("click", function (){
+cell8.addEventListener("click", function (){ if(t[7]==""){
   cell8.innerHTML=playChar;
 t[7]=playChar;
 winningCondition();
 ai();
-});
+}});
 
 var cell9 = document.getElementById("position9");
-cell9.addEventListener("click", function (){
+cell9.addEventListener("click", function (){ if(t[8]==""){
   cell9.innerHTML=playChar;
 t[8]=playChar;
 winningCondition();
 ai();
-});
+}});
